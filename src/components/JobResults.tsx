@@ -3,6 +3,7 @@ import { JobFilterValues } from "@/lib/validation";
 import JobListItem from "./JobListItem";
 import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
+import Link from "next/link";
 
 // Defining the props for the JobResults component
 interface JobResultsProps {
@@ -52,9 +53,11 @@ export default async function JobResults({
   // Rendering the jobs or a message if no jobs were found
   return (
     <div className="grow space-y-4">
-      {jobs.map((job) => {
-        return <JobListItem key={job.id} job={job} />;
-      })}
+      {jobs.map((job) => (
+        <Link href={`/jobs/${job.slug}`} key={job.id} className="block">
+          <JobListItem job={job} />
+        </Link>
+      ))}
       {jobs.length === 0 && (
         <p className="m-auto text-center">
           No jobs found. Try adjusting your search filters.
